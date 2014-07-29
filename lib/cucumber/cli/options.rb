@@ -89,6 +89,8 @@ module Cucumber
             "cucumber examples/i18n/it/features/somma.feature:6:98:113",
             "cucumber -s -i http://rubyurl.com/eeCl", "", "",
           ].join("\n")
+          # https://ruby-china.org/wiki/building-a-command-line-tool-with-optionparser
+          # # 这里是这个命令行工具的帮助信息
           opts.on("-r LIBRARY|DIR", "--require LIBRARY|DIR",
             "Require files before executing the features. If this",
             "option is not specified, all *.rb files that are",
@@ -104,7 +106,7 @@ module Cucumber
               $CLASSPATH << v
             end
           end
-
+          #  # Option 作为 flag，带argument，用于将argument作为数值解析
           if(Cucumber::JRUBY)
             opts.on("-j DIR", "--jars DIR",
             "Load all the jars under DIR") do |jars|
@@ -242,10 +244,13 @@ TEXT
             @out_stream.puts Cucumber::VERSION
             Kernel.exit(0)
           end
+          # http://ruby-doc.org/stdlib-1.9.2/libdoc/optparse/rdoc/OptionParser.html#method-i-on_tail
+          # 跟on用法一致，只不过出现在最后面
           opts.on_tail("-h", "--help", "You're looking at it.") do
             @out_stream.puts opts.help
             Kernel.exit(0)
           end
+          # 根据参数信息设置 @options，后面就根据 @options 的值来处理程序
         end.parse!
 
         if @quiet
